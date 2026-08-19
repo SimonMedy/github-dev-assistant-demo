@@ -43,3 +43,9 @@ Les tests E2E vérifient le contenu principal, les ancres de navigation et l’a
 - des vidéos à résolution explicite (`1440×900` desktop, `390×844` mobile) ;
 - les traces Playwright ;
 - le rapport HTML Playwright.
+
+## GPT definition
+
+La configuration source utilisée pour recréer et maintenir **GitHub Dev Assistant** est versionnée dans [`gpt-definition/`](gpt-definition/).
+
+Ce dossier contient les instructions du GPT et une archive lossless de son schéma OpenAPI. Les secrets et credentials d’authentification n’y sont jamais stockés.
