@@ -1,4 +1,39 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page, type TestInfo } from '@playwright/test'
+
+async function captureVisuals(page: Page, testInfo: TestInfo) {
+  const output = (name: string) => testInfo.outputPath(`visuals/${name}-${testInfo.project.name}.png`)
+
+  await page.evaluate(async () => {
+    await document.fonts.ready
+  })
+
+  await page.screenshot({
+    path: output('01-hero-viewport'),
+    fullPage: false,
+    scale: 'device',
+  })
+
+  await page.locator('#capabilities').screenshot({
+    path: output('02-capabilities'),
+    scale: 'device',
+  })
+
+  await page.locator('#workflow').screenshot({
+    path: output('03-workflow'),
+    scale: 'device',
+  })
+
+  await page.locator('#safety').screenshot({
+    path: output('04-safety'),
+    scale: 'device',
+  })
+
+  await page.screenshot({
+    path: output('05-full-page'),
+    fullPage: true,
+    scale: 'device',
+  })
+}
 
 test('renders the complete showcase responsively and keeps navigation usable', async ({ page }, testInfo) => {
   await page.goto('/')
@@ -19,6 +54,8 @@ test('renders the complete showcase responsively and keeps navigation usable', a
   )
   expect(hasHorizontalOverflow).toBe(false)
 
+  await captureVisuals(page, testInfo)
+
   await page.getByRole('link', { name: /Voir le workflow/ }).click()
   await expect(page).toHaveURL(/#workflow$/)
   await expect(page.locator('#workflow')).toBeInViewport()
@@ -26,9 +63,4 @@ test('renders the complete showcase responsively and keeps navigation usable', a
   await page.getByRole('link', { name: 'Explorer les garde-fous' }).click()
   await expect(page).toHaveURL(/#safety$/)
   await expect(page.locator('#safety')).toBeInViewport()
-
-  await page.screenshot({
-    path: testInfo.outputPath(`showcase-${testInfo.project.name}.png`),
-    fullPage: true,
-  })
 })

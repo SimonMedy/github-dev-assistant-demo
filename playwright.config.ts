@@ -14,7 +14,6 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:4173',
     trace: 'on',
     screenshot: 'only-on-failure',
-    video: 'on',
   },
   projects: [
     {
@@ -22,6 +21,8 @@ export default defineConfig({
       use: {
         browserName: 'chromium',
         viewport: { width: 1440, height: 900 },
+        deviceScaleFactor: 2,
+        video: { mode: 'on', size: { width: 1440, height: 900 } },
       },
     },
     {
@@ -29,8 +30,10 @@ export default defineConfig({
       use: {
         browserName: 'chromium',
         viewport: { width: 390, height: 844 },
+        deviceScaleFactor: 3,
         isMobile: true,
         hasTouch: true,
+        video: { mode: 'on', size: { width: 390, height: 844 } },
       },
     },
   ],
